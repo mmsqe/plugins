@@ -6,4 +6,10 @@
     <item name="android:textSize">14sp</item>
     <item name="android:colorAccent">#FF009688</item>
   </style>
+  <style name="AlertDialogLibra" parent="@android:style/Theme.Material.Dialog.Alert">
+    <item name="android:background">@color/background_color_libra</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:colorAccent">@color/primary_color_libra</item>
+  </style>
 </resources>

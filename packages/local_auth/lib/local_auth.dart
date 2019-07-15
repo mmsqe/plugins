@@ -15,6 +15,10 @@ enum BiometricType { face, fingerprint, iris }
 
 const MethodChannel _channel = MethodChannel('plugins.flutter.io/local_auth');
 
+enum FPDialogTheme {
+  LIBRA
+}
+
 /// A Flutter plugin for authenticating the user identity locally.
 class LocalAuthentication {
   /// Authenticates the user with biometrics available on the device.
@@ -54,12 +58,21 @@ class LocalAuthentication {
     bool stickyAuth = false,
     AndroidAuthMessages androidAuthStrings = const AndroidAuthMessages(),
     IOSAuthMessages iOSAuthStrings = const IOSAuthMessages(),
+    FPDialogTheme dialogTheme,
   }) async {
     assert(localizedReason != null);
+    String dialogThemeStr;
+    switch (dialogTheme) {
+      case FPDialogTheme.LIBRA:
+      default:
+        dialogThemeStr = "libra";
+        break;
+    }
     final Map<String, Object> args = <String, Object>{
       'localizedReason': localizedReason,
       'useErrorDialogs': useErrorDialogs,
       'stickyAuth': stickyAuth,
+      'theme':dialogThemeStr
     };
     if (Platform.isIOS) {
       args.addAll(iOSAuthStrings.args);
@@ -72,16 +85,20 @@ class LocalAuthentication {
               'operating systems.',
           details: 'Your operating system is ${Platform.operatingSystem}');
     }
-    return await _channel.invokeMethod<bool>(
-        'authenticateWithBiometrics', args);
+    // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
+    // https://github.com/flutter/flutter/issues/26431
+    // ignore: strong_mode_implicit_dynamic_method
+    return await _channel.invokeMethod('authenticateWithBiometrics', args);
   }
 
   /// Returns true if device is capable of checking biometrics
   ///
   /// Returns a [Future] bool true or false:
   Future<bool> get canCheckBiometrics async =>
-      (await _channel.invokeListMethod<String>('getAvailableBiometrics'))
-          .isNotEmpty;
+      // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
+      // https://github.com/flutter/flutter/issues/26431
+      // ignore: strong_mode_implicit_dynamic_method
+      (await _channel.invokeMethod('getAvailableBiometrics')).isNotEmpty;
 
   /// Returns a list of enrolled biometrics
   ///
@@ -91,7 +108,10 @@ class LocalAuthentication {
   /// - BiometricType.iris (not yet implemented)
   Future<List<BiometricType>> getAvailableBiometrics() async {
     final List<String> result =
-        (await _channel.invokeListMethod<String>('getAvailableBiometrics'));
+        // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
+        // https://github.com/flutter/flutter/issues/26431
+        // ignore: strong_mode_implicit_dynamic_method
+        (await _channel.invokeMethod('getAvailableBiometrics')).cast<String>();
     final List<BiometricType> biometrics = <BiometricType>[];
     result.forEach((String value) {
       switch (value) {

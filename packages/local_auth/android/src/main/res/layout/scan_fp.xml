@@ -6,22 +6,14 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
   <TextView
-      android:id="@+id/fingerprint_signin"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:paddingTop="24dp"
-      android:paddingBottom="20dp"
-      android:gravity="center_vertical"
-      android:textColor="@color/black_text"
-      style="@android:style/TextAppearance.DeviceDefault.Medium"
-      android:textSize="@dimen/huge_text_size"/>
-  <TextView
       android:id="@+id/fingerprint_description"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:paddingBottom="28dp"
+      android:paddingBottom="18dp"
+      android:paddingTop="18dp"
       android:textColor="@color/grey_text"
       android:textStyle="normal"
+      android:text="Hello WOrlds"
       android:textSize="@dimen/medium_text_size"/>
   <LinearLayout
       android:layout_width="match_parent"
